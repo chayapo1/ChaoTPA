@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
         // [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]); // For landscape
     return MaterialApp(
       home: Authen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
