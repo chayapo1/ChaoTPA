@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Authen extends StatefulWidget {
@@ -55,11 +57,61 @@ class _AuthenState extends State<Authen> {
     );
   }
 
+  Widget signinButton() {
+    return RaisedButton(
+      color: Colors.green[400],
+      child: Text(
+        'Sign In',
+        style: TextStyle(color: Colors.black),
+      ),
+      onPressed: () {},
+    );
+  }
+
+  Widget signupButton() {
+    return RaisedButton(
+      color: Colors.yellow[600],
+      child: Text('Sign Up'),
+      onPressed: () {},
+    );
+  }
+
+  Widget showButton() {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: signinButton(),
+          ),
+          mySizeBox(),
+          Expanded(
+            child: signupButton(),
+          ),
+        ],
+      ),
+      width: 250.0,
+    );
+  }
+
+  Widget mySizeBox() {
+    return SizedBox(
+      width: 10.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false, // Allow keyboard over the widget
       body: Container(
+        // color: Colors.orange[100],
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            colors: [Colors.white, Colors.blue[200]],
+            radius: 1.0,
+            center: Alignment.topCenter,
+          ),
+        ),
         alignment: Alignment.topCenter,
         padding: EdgeInsets.only(top: 60.0),
         child: Column(
@@ -68,6 +120,7 @@ class _AuthenState extends State<Authen> {
             showText(),
             emailText(),
             passwordText(),
+            showButton(),
           ],
         ),
       ),
