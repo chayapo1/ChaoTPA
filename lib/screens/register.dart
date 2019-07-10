@@ -7,12 +7,20 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   // Explicit
+  final formKey = GlobalKey<FormState>();
+  String nameStr, emailStr, passwordStr;
 
   // Method
   Widget uploadButton() {
     return IconButton(
       icon: Icon(Icons.cloud_upload),
-      onPressed: () {},
+      onPressed: () {
+        print('Upload Clicked');
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          print('Name = $nameStr, Email = $emailStr, Password = $passwordStr');
+        }
+      },
     );
   }
 
@@ -37,6 +45,14 @@ class _RegisterState extends State<Register> {
           color: Colors.blue[700],
         ),
       ),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please fill Name.';
+        }
+      },
+      onSaved: (String value) {
+        nameStr = value;
+      },
     );
   }
 
@@ -62,6 +78,16 @@ class _RegisterState extends State<Register> {
           color: Colors.blue[700],
         ),
       ),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please fill Email';
+        } else if (!value.contains('@') || !value.contains('.')) {
+          return 'Invalid Email';
+        }
+      },
+      onSaved: (String value) {
+        emailStr = value;
+      },
     );
   }
 
@@ -87,6 +113,14 @@ class _RegisterState extends State<Register> {
           color: Colors.blue[700],
         ),
       ),
+      validator: (String value) {
+        if (value.length < 7) {
+          return 'Password failed.';
+        }
+      },
+      onSaved: (String value) {
+        passwordStr = value;
+      },
     );
   }
 
@@ -105,14 +139,18 @@ class _RegisterState extends State<Register> {
         alignment: Alignment.topCenter,
         padding: EdgeInsets.only(top: 30.0),
         child: Container(
-            width: 300.0,
+          width: 300.0,
+          child: Form(
+            key: formKey,
             child: Column(
               children: <Widget>[
                 nameText(),
                 emailText(),
                 passwordText(),
               ],
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }
