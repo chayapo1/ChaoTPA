@@ -21,10 +21,36 @@ class _AuthenState extends State<Authen> {
     return Text(
       'Chao TPA',
       style: TextStyle(
-        fontSize: 30.0,
-        color: Colors.brown[800],
-        fontWeight: FontWeight.bold,
-        fontFamily: 'Pacifico'
+          fontSize: 30.0,
+          color: Colors.brown[800],
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Pacifico'),
+    );
+  }
+
+  Widget emailText() {
+    return Container(
+      width: 250.0,
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          labelText: 'Email :',
+          hintText: 'your@email.com',
+        ),
+      ),
+    );
+  }
+
+  Widget passwordText() {
+    return Container(
+      width: 250.0,
+      child: TextFormField(
+        obscureText: true,
+        // validator: (val) => val.length < 6 ? 'Password too short.' : null,
+        decoration: InputDecoration(
+          labelText: 'Password :',
+          hintText: 'More than 6 characters',
+        ),
       ),
     );
   }
@@ -32,6 +58,7 @@ class _AuthenState extends State<Authen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false, // Allow keyboard over the widget
       body: Container(
         alignment: Alignment.topCenter,
         padding: EdgeInsets.only(top: 60.0),
@@ -39,6 +66,8 @@ class _AuthenState extends State<Authen> {
           children: <Widget>[
             showLogo(),
             showText(),
+            emailText(),
+            passwordText(),
           ],
         ),
       ),
