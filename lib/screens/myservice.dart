@@ -14,13 +14,47 @@ class _MyServiceState extends State<MyService> {
   String nameStr = "";
 
   // Method
+  Widget showTitleAppBar() {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Column(
+        children: <Widget>[
+          Container(
+            alignment: Alignment.topLeft,
+            child: Text('My Service'),
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            child: Text(
+              'Logged by $nameStr',
+              style: TextStyle(
+                fontSize: 14,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+    findName();
+  }
+
+  Future<void> findName() async {
+    FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+    setState(() {
+      nameStr = firebaseUser.displayName;
+    });
+    print('Name = $nameStr');
   }
 
   Future<void> doSignOutAndExit() async {
     await firebaseAuth.signOut().then((response) {
+      print('Exit');
       exit(0);
     });
   }
@@ -85,7 +119,8 @@ class _MyServiceState extends State<MyService> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Service'),
+        backgroundColor: Colors.brown[700],
+        title: showTitleAppBar(),
       ),
       body: Text('body'),
       drawer: myDrawerMenu(),
