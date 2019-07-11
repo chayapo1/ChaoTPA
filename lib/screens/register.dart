@@ -1,3 +1,4 @@
+import 'package:chao_tpa/screens/myservice.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -33,15 +34,28 @@ class _RegisterState extends State<Register> {
         .createUserWithEmailAndPassword(email: emailStr, password: passwordStr)
         .then((response) {
       print('Register Success');
+      setupDisplayName();
     }).catchError((response) {
       print('Error = ${response.toString()}');
-      // String title = response.code;
-      // String message = response.message;
-      myAlert(response.code, response.message);
+      String title = response.code;
+      String message = response.message;
+      myAlert(title, message);
     });
   }
 
-  
+  Future<void> setupDisplayName() async {
+    await firebaseAuth.currentUser().then((response) {
+      UserUpdateInfo userUpdateInfo = UserUpdateInfo();
+      userUpdateInfo.displayName = nameStr;
+      response.updateProfile(userUpdateInfo);
+
+      // Move to service
+      var myServiceRoute =
+          MaterialPageRoute(builder: (BuildContext context) => MyService());
+      Navigator.of(context)
+          .pushAndRemoveUntil(myServiceRoute, (Route<dynamic> route) => false);
+    });
+  }
 
   void myAlert(String titleStr, String messageStr) {
     showDialog(
@@ -143,7 +157,7 @@ class _RegisterState extends State<Register> {
           fontSize: 24.0,
           fontFamily: 'Pacifico',
         ),
-        helperText: 'More than 6 characters',
+        helperText: 'More 6 characters',
         helperStyle: TextStyle(
           color: Colors.grey,
           fontSize: 14.0,
@@ -156,7 +170,7 @@ class _RegisterState extends State<Register> {
         ),
       ),
       validator: (String value) {
-        if (value.length < 7) {
+        if (value.length < 6) {
           return 'Password failed.';
         }
       },

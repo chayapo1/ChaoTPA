@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:chao_tpa/screens/myservice.dart';
 import 'package:chao_tpa/screens/register.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +10,24 @@ class Authen extends StatefulWidget {
 
 class _AuthenState extends State<Authen> {
   // Explicit
+  final formKey = GlobalKey<FormState>();
+  String emailStr, passwordStr;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Method
+  void mySnackBar(String messageStr) {
+    SnackBar snackBar = SnackBar(
+      content: Text(messageStr),
+      duration: Duration(seconds: 8),
+      backgroundColor: Colors.cyan,
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {},
+      ),
+    );
+    scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +77,16 @@ class _AuthenState extends State<Authen> {
           labelText: 'Email :',
           hintText: 'your@email.com',
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please fill Email';
+            // } else if (!value.contains('@') || !value.contains('.')) {
+            //   return 'Invalid Email';
+          }
+        },
+        onSaved: (String value) {
+          emailStr = value;
+        },
       ),
     );
   }
@@ -75,8 +99,16 @@ class _AuthenState extends State<Authen> {
         // validator: (val) => val.length < 6 ? 'Password too short.' : null,
         decoration: InputDecoration(
           labelText: 'Password :',
-          hintText: 'More than 6 characters',
+          hintText: 'More 6 characters',
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please fill Password';
+          }
+        },
+        onSaved: (String value) {
+          passwordStr = value;
+        },
       ),
     );
   }
@@ -88,8 +120,28 @@ class _AuthenState extends State<Authen> {
         'Sign In',
         style: TextStyle(color: Colors.black),
       ),
-      onPressed: () {},
+      onPressed: () {
+        // print('Sign In Clicked.');
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          checkAuthen();
+        }
+      },
     );
+  }
+
+  Future<void> checkAuthen() async {
+    print('Email = $emailStr, Password = $passwordStr');
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth
+        .signInWithEmailAndPassword(email: emailStr, password: passwordStr)
+        .then((response) {
+      moveToService();
+    }).catchError((response) {
+      String messageStr = response.message;
+      print('Message = $messageStr');
+      mySnackBar(messageStr);
+    });
   }
 
   Widget signupButton() {
@@ -98,7 +150,6 @@ class _AuthenState extends State<Authen> {
       child: Text('Sign Up'),
       onPressed: () {
         print('Sign Up Clicked.');
-
         // Create route
         var registerRoute =
             MaterialPageRoute(builder: (BuildContext context) => Register());
@@ -133,6 +184,7 @@ class _AuthenState extends State<Authen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       resizeToAvoidBottomPadding: false, // Allow keyboard over the widget
       body: Container(
         // color: Colors.orange[100],
@@ -145,14 +197,17 @@ class _AuthenState extends State<Authen> {
         ),
         alignment: Alignment.topCenter,
         padding: EdgeInsets.only(top: 60.0),
-        child: Column(
-          children: <Widget>[
-            showLogo(),
-            showText(),
-            emailText(),
-            passwordText(),
-            showButton(),
-          ],
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: <Widget>[
+              showLogo(),
+              showText(),
+              emailText(),
+              passwordText(),
+              showButton(),
+            ],
+          ),
         ),
       ),
     );
