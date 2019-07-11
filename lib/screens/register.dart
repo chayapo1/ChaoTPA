@@ -40,6 +40,7 @@ class _RegisterState extends State<Register> {
       myAlert(response.code, response.message);
     });
   }
+  
 
   void myAlert(String titleStr, String messageStr) {
     showDialog(
