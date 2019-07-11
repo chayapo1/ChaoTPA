@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:chao_tpa/screens/myservice.dart';
 import 'package:chao_tpa/screens/register.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Authen extends StatefulWidget {
   @override
@@ -12,6 +14,27 @@ class _AuthenState extends State<Authen> {
   // Explicit
 
   // Method
+  @override
+  void initState() {
+    super.initState();
+    checkStatus();
+  }
+
+  Future<void> checkStatus() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+    if (firebaseUser != null) {
+      moveToService();
+    }
+  }
+
+  void moveToService() {
+    var serviceRoute =
+        MaterialPageRoute(builder: (BuildContext context) => MyService());
+    Navigator.of(context)
+        .pushAndRemoveUntil(serviceRoute, (Route<dynamic> route) => false);
+  }
+
   Widget showLogo() {
     return Container(
       width: 150.0,
@@ -135,3 +158,5 @@ class _AuthenState extends State<Authen> {
     );
   }
 }
+
+// Test staged changes
