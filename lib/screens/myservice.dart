@@ -96,6 +96,21 @@ class _MyServiceState extends State<MyService> {
           ),
           ListTile(
             leading: Icon(
+              Icons.dashboard,
+              size: 36,
+            ),
+            title: Text(
+              'QR Code',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            onTap: () {
+              print('QR Code Clicked');
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.exit_to_app,
               size: 36,
               color: Colors.red,

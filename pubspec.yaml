@@ -26,8 +26,9 @@ dependencies:
   firebase_core: ^0.4.0+6
   firebase_auth: ^0.11.1+7
   cloud_firestore: ^0.12.7
-  chewie: ^0.9.7
-  video_player: ^0.10.1+3
+  chewie: ^0.9.7 # chewie. https://pub.dev/packages/chewie
+  video_player: ^0.10.1+3 # Video Player plugin for Flutter. https://pub.dev/packages/video_player
+  barcode_scan: ^1.0.0 # Barcode Scanner. https://pub.dev/packages/barcode_scan
 
 dev_dependencies:
   flutter_test:

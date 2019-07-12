@@ -61,6 +61,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.google.firebase:firebase-core:17.0.0' // Firebase
     implementation 'com.android.support:multidex:1.0.3' // Cloud Firestore
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" //  Barcode Scanner. https://pub.dev/packages/barcode_scan
 }
 
 apply plugin: 'com.google.gms.google-services' // Firebase
+apply plugin: 'kotlin-android' // Barcode Scanner. https://pub.dev/packages/barcode_scan
