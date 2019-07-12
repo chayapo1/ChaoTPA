@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chao_tpa/screens/showlistvideo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -119,10 +120,10 @@ class _MyServiceState extends State<MyService> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.brown[700],
+        backgroundColor: Colors.orange[600],
         title: showTitleAppBar(),
       ),
-      body: Text('body'),
+      body: ShowListVideo(),
       drawer: myDrawerMenu(),
     );
   }
