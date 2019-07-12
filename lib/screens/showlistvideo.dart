@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chao_tpa/models/listvideomodel.dart';
+import 'package:chao_tpa/screens/videoplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -67,6 +68,8 @@ class _ShowListVideoState extends State<ShowListVideo> {
       padding: EdgeInsets.only(top: 5, right: 5, left: 10, bottom: 5),
       child: Column(
         children: <Widget>[
+          // ListTile(title: Text('data'),leading: Text(listVideoModels[index].name),),
+          // ListTile(leading: Text(listVideoModels[index].detail),),
           Container(
             alignment: Alignment.topLeft,
             child: Text(
@@ -101,19 +104,28 @@ class _ShowListVideoState extends State<ShowListVideo> {
       alignment: Alignment.topLeft,
       child: ListView.builder(
         itemCount: listVideoModels.length,
-        itemBuilder: (context, int index) {
-          return Container(
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            child: Container(
               child: Column(
-            children: <Widget>[
-              Row(
                 children: <Widget>[
-                  showImage(index),
-                  showText(index),
+                  Row(
+                    children: <Widget>[
+                      showImage(index),
+                      showText(index),
+                    ],
+                  ),
+                  myDivider(),
                 ],
               ),
-              myDivider(),
-            ],
-          ));
+            ),
+            onTap: () {
+              print('index = $index');
+              var playRoute = MaterialPageRoute(
+                  builder: (BuildContext context) => VideoPlayer(listVideoModel: listVideoModels[index],));
+              Navigator.of(context).push(playRoute);
+            },
+          );
         },
       ),
     );
