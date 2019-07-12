@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="th.or.tpa.chao_tpa">
 
-    <user-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
@@ -35,6 +35,6 @@
 
         <!-- Barcode Scanner. https://pub.dev/packages/barcode_scan -->
         <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
-        
+
     </application>
 </manifest>
