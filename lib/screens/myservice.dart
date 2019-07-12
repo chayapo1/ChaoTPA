@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chao_tpa/screens/showlistvideo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 
 class MyService extends StatefulWidget {
   @override
@@ -60,6 +61,15 @@ class _MyServiceState extends State<MyService> {
     });
   }
 
+  Future<void> readQRCode() async {
+    try {
+      String qrCodeStr = await BarcodeScanner.scan();
+      if (qrCodeStr.length > 0) {
+        print('QR Code = $qrCodeStr');
+      }
+    } catch (e) {}
+  }
+
   Widget showAppName() {
     return Text(
       'Chao TPA',
@@ -107,6 +117,7 @@ class _MyServiceState extends State<MyService> {
             ),
             onTap: () {
               print('QR Code Clicked');
+              readQRCode();
             },
           ),
           ListTile(
